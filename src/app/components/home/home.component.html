@@ -1,0 +1,58 @@
+<div class="home-container">
+  <div class="header">
+    <h1>Job Portal Dashboard</h1>
+    <button class="refresh-btn" (click)="refresh()" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div class="content">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading statistics...</p>
+    </div>
+
+    <div *ngIf="error" class="error">
+      <p>{{ error }}</p>
+      <a routerLink="/settings" class="error-link">Go to Settings</a>
+    </div>
+
+    <div *ngIf="!loading && !error && totalChartOptions && companiesChartOptions" class="charts-wrapper">
+      <div class="chart-card">
+        <apx-chart
+          #totalChart
+          [series]="totalChartOptions.series!"
+          [chart]="totalChartOptions.chart!"
+          [xaxis]="totalChartOptions.xaxis!"
+          [yaxis]="totalChartOptions.yaxis!"
+          [title]="totalChartOptions.title!"
+          [stroke]="totalChartOptions.stroke!"
+          [legend]="totalChartOptions.legend!"
+          [tooltip]="totalChartOptions.tooltip!"
+          [markers]="totalChartOptions.markers!"
+          [colors]="totalChartOptions.colors!"
+        ></apx-chart>
+      </div>
+
+      <div class="chart-card">
+        <apx-chart
+          #companiesChart
+          [series]="companiesChartOptions.series!"
+          [chart]="companiesChartOptions.chart!"
+          [xaxis]="companiesChartOptions.xaxis!"
+          [yaxis]="companiesChartOptions.yaxis!"
+          [title]="companiesChartOptions.title!"
+          [stroke]="companiesChartOptions.stroke!"
+          [legend]="companiesChartOptions.legend!"
+          [tooltip]="companiesChartOptions.tooltip!"
+          [markers]="companiesChartOptions.markers!"
+          [colors]="companiesChartOptions.colors!"
+        ></apx-chart>
+      </div>
+
+      <div class="last-updated" *ngIf="lastUpdated">
+        Last updated: {{ lastUpdated | date:'short' }}
+      </div>
+    </div>
+  </div>
+</div>

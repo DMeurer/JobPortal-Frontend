@@ -1,0 +1,83 @@
+<div class="settings-container">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+    <h1>Settings</h1>
+  </div>
+
+  <div class="settings-content">
+    <div class="settings-section">
+      <h2>API Configuration</h2>
+
+      <div class="form-group">
+        <label for="apiUrl">API URL</label>
+        <input
+          type="text"
+          id="apiUrl"
+          [(ngModel)]="apiUrl"
+          placeholder="http://localhost:8000"
+          class="form-control"
+        />
+        <small class="form-hint">The base URL of the Job Portal API</small>
+      </div>
+
+      <div class="form-group">
+        <label for="apiKey">API Key (Optional)</label>
+        <input
+          type="password"
+          id="apiKey"
+          [(ngModel)]="apiKey"
+          placeholder="Enter your API key"
+          class="form-control"
+        />
+        <small class="form-hint" *ngIf="!hasEnvironmentKey">
+          Leave empty to access public data only. Hidden companies require an API key with read_hidden permission.
+        </small>
+        <small class="form-hint" *ngIf="hasEnvironmentKey && !usingCustomKey">
+          <strong>Using environment default API key.</strong> Enter a custom key to override.
+        </small>
+        <small class="form-hint" *ngIf="hasEnvironmentKey && usingCustomKey">
+          <strong>Using custom API key.</strong> Clear this field to use the environment default.
+        </small>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" (click)="saveSettings()">
+          Save Settings
+        </button>
+        <button class="btn btn-secondary" (click)="testConnection()" [disabled]="testing">
+          {{ testing ? 'Testing...' : 'Test Connection' }}
+        </button>
+        <button class="btn btn-danger" (click)="clearSettings()">
+          Clear Settings
+        </button>
+      </div>
+
+      <div *ngIf="saved" class="alert alert-success">
+        Settings saved successfully!
+      </div>
+
+      <div *ngIf="testResult" [ngClass]="testResult.success ? 'alert alert-success' : 'alert alert-error'">
+        {{ testResult.message }}
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>Information</h2>
+      <div class="info-card">
+        <h3>About API Keys</h3>
+        <p>
+          API keys control access to job data. Keys can have different permissions:
+        </p>
+        <ul>
+          <li><strong>read</strong> - View job listings and statistics</li>
+          <li><strong>write</strong> - Submit job data (for scrapers)</li>
+          <li><strong>read_hidden</strong> - Access hidden company data</li>
+          <li><strong>admin</strong> - Full access to all features</li>
+        </ul>
+        <p>
+          To get an API key, contact your Job Portal administrator.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
