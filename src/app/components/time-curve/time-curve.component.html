@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="page-header">
+    <h2>Time Curve - Job Statistics</h2>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading statistics...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button (click)="refresh()" class="btn btn-primary">Try Again</button>
+  </div>
+
+  <div *ngIf="!loading && !error" class="content">
+    <div class="controls">
+      <div class="form-group">
+        <label for="company-select">Select Company:</label>
+        <select
+          id="company-select"
+          [(ngModel)]="selectedCompany"
+          (change)="onCompanyChange()"
+          class="company-select">
+          <option *ngFor="let company of companies" [value]="company.company_name">
+            {{ company.company_name }}
+          </option>
+        </select>
+      </div>
+      <button (click)="refresh()" class="btn btn-secondary">Refresh</button>
+    </div>
+
+    <div class="chart-container" *ngIf="chartOptions">
+      <apx-chart
+        #chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [xaxis]="chartOptions.xaxis!"
+        [yaxis]="chartOptions.yaxis!"
+        [title]="chartOptions.title!"
+        [plotOptions]="chartOptions.plotOptions!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [legend]="chartOptions.legend!"
+        [tooltip]="chartOptions.tooltip!"
+        [colors]="chartOptions.colors!"
+      ></apx-chart>
+    </div>
+
+    <div class="legend-info">
+      <div class="legend-item">
+        <span class="legend-color" style="background-color: #F44336;"></span>
+        <span>Removed Jobs (below x-axis)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background-color: #2196F3;"></span>
+        <span>Existing Jobs (same since yesterday)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color" style="background-color: #4CAF50;"></span>
+        <span>New Jobs (added today)</span>
+      </div>
+    </div>
+  </div>
+</div>

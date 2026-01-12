@@ -1,23 +1,32 @@
 <div class="app-container">
-  <nav class="navbar">
-    <div class="nav-content">
-      <div class="nav-brand">
-        <h1>{{ title }}</h1>
-      </div>
-      <div class="nav-links">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          Dashboard
-        </a>
-        <a routerLink="/settings" routerLinkActive="active">
-          Settings
-        </a>
-      </div>
+  <header class="header">
+    <div class="header-brand">
+      <h1>{{ title }}</h1>
     </div>
-  </nav>
+  </header>
 
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
+  <div class="content-wrapper">
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a routerLink="/time-curve" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span class="nav-text">Time Curve</span>
+        </a>
+        <a routerLink="/settings" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 
   <footer class="footer">
     <p>&copy; 2026 Job Portal. All rights reserved.</p>
