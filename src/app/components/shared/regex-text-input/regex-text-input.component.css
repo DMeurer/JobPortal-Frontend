@@ -1,0 +1,74 @@
+.regex-text-input {
+  width: 100%;
+}
+
+.input-wrapper {
+  display: flex;
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  background-color: var(--bg-input);
+  transition: border-color 0.3s;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--primary);
+}
+
+.input-wrapper.regex-mode {
+  border-color: #9b59b6;
+}
+
+.input-wrapper.error {
+  border-color: var(--error);
+}
+
+.text-input {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.text-input::placeholder {
+  color: var(--text-muted);
+}
+
+.regex-toggle {
+  padding: 8px 12px;
+  border: none;
+  border-left: 1px solid var(--border-primary);
+  background-color: var(--bg-secondary);
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.regex-toggle:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.regex-toggle.active {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.error-message {
+  margin-top: 4px;
+  padding: 4px 8px;
+  background-color: rgba(244, 67, 54, 0.15);
+  color: var(--error);
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.regex-hint {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #9b59b6;
+}

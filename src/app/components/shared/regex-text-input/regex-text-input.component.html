@@ -1,0 +1,26 @@
+<div class="regex-text-input">
+  <div class="input-wrapper" [class.regex-mode]="isRegex" [class.error]="regexError">
+    <input
+      type="text"
+      [(ngModel)]="value"
+      (ngModelChange)="onTextChange()"
+      [placeholder]="placeholder"
+      class="text-input"
+    />
+    <button
+      type="button"
+      class="regex-toggle"
+      [class.active]="isRegex"
+      (click)="toggleRegex()"
+      title="Toggle regex mode"
+    >
+      .*
+    </button>
+  </div>
+  <div *ngIf="regexError" class="error-message">
+    {{ regexError }}
+  </div>
+  <div *ngIf="isRegex && !regexError" class="regex-hint">
+    Regex mode enabled (PostgreSQL syntax)
+  </div>
+</div>

@@ -3,6 +3,15 @@
     <div class="header-brand">
       <h1>{{ title }}</h1>
     </div>
+    <div class="header-actions">
+      <button
+        class="theme-toggle"
+        (click)="toggleTheme()"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+        [attr.title]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+        {{ themeService.isDark() ? '☀️' : '🌙' }}
+      </button>
+    </div>
   </header>
 
   <div class="content-wrapper">
@@ -15,6 +24,10 @@
         <a routerLink="/time-curve" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">📈</span>
           <span class="nav-text">Time Curve</span>
+        </a>
+        <a routerLink="/job-search" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span class="nav-text">Job Search</span>
         </a>
         <a routerLink="/settings" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">⚙️</span>

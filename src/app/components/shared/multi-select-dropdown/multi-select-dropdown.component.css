@@ -1,0 +1,145 @@
+.multi-select-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  background-color: var(--bg-input);
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.dropdown-header:hover {
+  border-color: var(--primary);
+}
+
+.display-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.arrow {
+  margin-left: 10px;
+  transition: transform 0.2s;
+  color: var(--text-muted);
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background-color: var(--bg-dropdown);
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-box {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+}
+
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.action-btn {
+  flex: 1;
+  padding: 6px 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  background-color: var(--bg-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background-color: var(--bg-tertiary);
+  border-color: var(--primary);
+}
+
+.options-list {
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.option-item:hover {
+  background-color: var(--nav-hover-bg);
+}
+
+.option-item.selected {
+  background-color: rgba(0, 75, 25, 0.2);
+}
+
+.checkbox {
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.option-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.no-results {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}

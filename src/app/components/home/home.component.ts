@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { NgApexchartsModule, ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexTitleSubtitle, ApexStroke, ApexLegend, ApexTooltip, ApexMarkers } from 'ng-apexcharts';
+import { NgApexchartsModule, ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexTitleSubtitle, ApexStroke, ApexLegend, ApexTooltip, ApexMarkers, ApexTheme, ApexGrid } from 'ng-apexcharts';
 import { ApiService, JobStatistics } from '../../services/api.service';
+import { ThemeService } from '../../services/theme.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -15,6 +16,8 @@ export type ChartOptions = {
   tooltip: ApexTooltip;
   markers: ApexMarkers;
   colors: string[];
+  theme: ApexTheme;
+  grid: ApexGrid;
 };
 
 @Component({
@@ -28,6 +31,10 @@ export class HomeComponent implements OnInit {
   @ViewChild('totalChart') totalChart!: ChartComponent;
   @ViewChild('companiesChart') companiesChart!: ChartComponent;
 
+  private themeService = inject(ThemeService);
+  private apiService = inject(ApiService);
+  private cdr = inject(ChangeDetectorRef);
+
   loading = true;
   error: string | null = null;
   lastUpdated: Date | null = null;
@@ -38,10 +45,22 @@ export class HomeComponent implements OnInit {
   // Chart options for individual companies chart
   companiesChartOptions: Partial<ChartOptions> | null = null;
 
-  constructor(
-    private apiService: ApiService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  // Store the data for re-rendering on theme change
+  private cachedCategories: string[] = [];
+  private cachedTotalSeries: ApexAxisChartSeries = [];
+  private cachedCompaniesSeries: ApexAxisChartSeries = [];
+
+  constructor() {
+    // React to theme changes
+    effect(() => {
+      const isDark = this.themeService.isDark();
+      if (this.cachedCategories.length > 0) {
+        this.createTotalChart(this.cachedCategories, this.cachedTotalSeries);
+        this.createCompaniesChart(this.cachedCategories, this.cachedCompaniesSeries);
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadStatistics();
@@ -123,6 +142,11 @@ export class HomeComponent implements OnInit {
         return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       });
 
+      // Cache data for theme change re-render
+      this.cachedCategories = formattedDates;
+      this.cachedTotalSeries = totalSeries;
+      this.cachedCompaniesSeries = companiesSeries;
+
       // Create charts
       this.createTotalChart(formattedDates, totalSeries);
       this.createCompaniesChart(formattedDates, companiesSeries);
@@ -134,12 +158,29 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  private getChartThemeOptions() {
+    const isDark = this.themeService.isDark();
+    return {
+      background: isDark ? '#282828' : '#faf8f5',
+      foreColor: isDark ? '#b0b0b0' : '#5a5a5a',
+      gridColor: isDark ? '#404040' : '#d5cfc5',
+      titleColor: isDark ? '#e8e8e8' : '#2d2d2d',
+      labelColor: isDark ? '#b0b0b0' : '#5a5a5a',
+      tooltipTheme: isDark ? 'dark' as const : 'light' as const,
+      mode: isDark ? 'dark' as const : 'light' as const
+    };
+  }
+
   createTotalChart(categories: string[], series: ApexAxisChartSeries): void {
+    const theme = this.getChartThemeOptions();
+
     this.totalChartOptions = {
       series: series,
       chart: {
         type: 'line',
         height: 400,
+        background: theme.background,
+        foreColor: theme.foreColor,
         zoom: {
           enabled: true,
           type: 'x',
@@ -157,6 +198,13 @@ export class HomeComponent implements OnInit {
           }
         }
       },
+      theme: {
+        mode: theme.mode
+      },
+      grid: {
+        borderColor: theme.gridColor,
+        strokeDashArray: 3
+      },
       stroke: {
         curve: 'smooth',
         width: 3
@@ -166,23 +214,47 @@ export class HomeComponent implements OnInit {
         align: 'left',
         style: {
           fontSize: '20px',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          color: theme.titleColor
         }
       },
       xaxis: {
         categories: categories,
         title: {
-          text: 'Date'
+          text: 'Date',
+          style: {
+            color: theme.labelColor
+          }
+        },
+        labels: {
+          style: {
+            colors: theme.labelColor
+          }
+        },
+        axisBorder: {
+          color: theme.gridColor
+        },
+        axisTicks: {
+          color: theme.gridColor
         }
       },
       yaxis: {
         title: {
-          text: 'Number of Positions'
+          text: 'Number of Positions',
+          style: {
+            color: theme.labelColor
+          }
+        },
+        labels: {
+          style: {
+            colors: theme.labelColor
+          }
         },
         min: 0
       },
       tooltip: {
         enabled: true,
+        theme: theme.tooltipTheme,
         y: {
           formatter: (value: number) => {
             return value + ' positions';
@@ -199,17 +271,24 @@ export class HomeComponent implements OnInit {
       legend: {
         show: true,
         position: 'top',
-        horizontalAlign: 'right'
+        horizontalAlign: 'right',
+        labels: {
+          colors: theme.labelColor
+        }
       }
     };
   }
 
   createCompaniesChart(categories: string[], series: ApexAxisChartSeries): void {
+    const theme = this.getChartThemeOptions();
+
     this.companiesChartOptions = {
       series: series,
       chart: {
         type: 'line',
         height: 500,
+        background: theme.background,
+        foreColor: theme.foreColor,
         zoom: {
           enabled: true,
           type: 'x',
@@ -227,6 +306,13 @@ export class HomeComponent implements OnInit {
           }
         }
       },
+      theme: {
+        mode: theme.mode
+      },
+      grid: {
+        borderColor: theme.gridColor,
+        strokeDashArray: 3
+      },
       stroke: {
         curve: 'smooth',
         width: 2
@@ -236,18 +322,41 @@ export class HomeComponent implements OnInit {
         align: 'left',
         style: {
           fontSize: '20px',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          color: theme.titleColor
         }
       },
       xaxis: {
         categories: categories,
         title: {
-          text: 'Date'
+          text: 'Date',
+          style: {
+            color: theme.labelColor
+          }
+        },
+        labels: {
+          style: {
+            colors: theme.labelColor
+          }
+        },
+        axisBorder: {
+          color: theme.gridColor
+        },
+        axisTicks: {
+          color: theme.gridColor
         }
       },
       yaxis: {
         title: {
-          text: 'Number of Positions'
+          text: 'Number of Positions',
+          style: {
+            color: theme.labelColor
+          }
+        },
+        labels: {
+          style: {
+            colors: theme.labelColor
+          }
         },
         min: 0
       },
@@ -255,6 +364,7 @@ export class HomeComponent implements OnInit {
         enabled: true,
         shared: true,
         intersect: false,
+        theme: theme.tooltipTheme,
         y: {
           formatter: (value: number) => {
             return value + ' positions';
@@ -272,7 +382,10 @@ export class HomeComponent implements OnInit {
         position: 'top',
         horizontalAlign: 'right',
         floating: false,
-        fontSize: '12px'
+        fontSize: '12px',
+        labels: {
+          colors: theme.labelColor
+        }
       },
       colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8']
     };

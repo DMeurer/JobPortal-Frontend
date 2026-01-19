@@ -1,0 +1,169 @@
+<div class="container">
+  <div class="page-header">
+    <h2>Job Search</h2>
+  </div>
+
+  <div *ngIf="filterOptionsLoading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading filters...</p>
+  </div>
+
+  <div *ngIf="filterOptionsError" class="error">
+    <p>{{ filterOptionsError }}</p>
+    <button (click)="loadFilterOptions()" class="btn btn-primary">Try Again</button>
+  </div>
+
+  <div *ngIf="!filterOptionsLoading && !filterOptionsError && filterOptions" class="content">
+    <!-- Filters Section -->
+    <div class="filters-section">
+      <h3>Filters</h3>
+
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Companies</label>
+          <app-multi-select-dropdown
+            [options]="filterOptions.companies"
+            [selectedOptions]="selectedCompanies"
+            [selectAllByDefault]="true"
+            placeholder="Select companies"
+            (selectionChange)="onCompaniesChange($event)"
+          ></app-multi-select-dropdown>
+        </div>
+
+        <div class="filter-group">
+          <label>Job Level</label>
+          <app-multi-select-dropdown
+            [options]="filterOptions.levels"
+            [selectedOptions]="selectedLevels"
+            placeholder="Select levels"
+            (selectionChange)="onLevelsChange($event)"
+          ></app-multi-select-dropdown>
+        </div>
+
+        <div class="filter-group">
+          <label>Job Title</label>
+          <app-regex-text-input
+            placeholder="Search job title..."
+            [value]="titleSearch.text"
+            [isRegex]="titleSearch.isRegex"
+            (valueChange)="onTitleSearchChange($event)"
+          ></app-regex-text-input>
+        </div>
+
+        <div class="filter-group">
+          <label>Job Function</label>
+          <app-regex-text-input
+            placeholder="Search job function..."
+            [value]="functionSearch.text"
+            [isRegex]="functionSearch.isRegex"
+            (valueChange)="onFunctionSearchChange($event)"
+          ></app-regex-text-input>
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button
+          *ngIf="hasActiveFilters"
+          (click)="clearFilters()"
+          class="btn btn-secondary"
+        >
+          Clear All Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section">
+      <div class="results-header">
+        <h3>Results</h3>
+        <div class="results-controls">
+          <span class="results-count">{{ totalJobs }} jobs found</span>
+          <div class="page-size-control">
+            <label>Show:</label>
+            <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+              <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="jobsLoading" class="jobs-loading">
+        <div class="spinner-small"></div>
+        <span>Searching...</span>
+      </div>
+
+      <div *ngIf="jobsError" class="jobs-error">
+        {{ jobsError }}
+      </div>
+
+      <div *ngIf="!jobsLoading && !jobsError && jobs.length > 0" class="jobs-list">
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Company</th>
+              <th>Level</th>
+              <th>Location</th>
+              <th>Contract Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let job of jobs">
+              <td>{{ job.title || 'N/A' }}</td>
+              <td>{{ job.company_name }}</td>
+              <td>{{ job.level || 'N/A' }}</td>
+              <td>{{ job.location || 'N/A' }}</td>
+              <td>{{ job.contract_type || 'N/A' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination" *ngIf="totalPages > 1">
+          <button
+            class="page-btn"
+            [disabled]="currentPage === 0"
+            (click)="onPageChange(0)"
+          >
+            First
+          </button>
+          <button
+            class="page-btn"
+            [disabled]="currentPage === 0"
+            (click)="onPageChange(currentPage - 1)"
+          >
+            Prev
+          </button>
+          <button
+            *ngFor="let page of pageNumbers"
+            class="page-btn"
+            [class.active]="page === currentPage"
+            (click)="onPageChange(page)"
+          >
+            {{ page + 1 }}
+          </button>
+          <button
+            class="page-btn"
+            [disabled]="currentPage === totalPages - 1"
+            (click)="onPageChange(currentPage + 1)"
+          >
+            Next
+          </button>
+          <button
+            class="page-btn"
+            [disabled]="currentPage === totalPages - 1"
+            (click)="onPageChange(totalPages - 1)"
+          >
+            Last
+          </button>
+          <span class="page-info">
+            Page {{ currentPage + 1 }} of {{ totalPages }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="!jobsLoading && !jobsError && jobs.length === 0" class="no-jobs">
+        No jobs found matching your search criteria
+      </div>
+    </div>
+  </div>
+</div>

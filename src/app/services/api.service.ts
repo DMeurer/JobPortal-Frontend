@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SettingsService } from './settings.service';
 
@@ -17,6 +17,43 @@ export interface CompanyStatistics {
 
 export interface JobStatistics {
   companies: CompanyStatistics[];
+}
+
+export interface JobSearchResult {
+  id: number;
+  company_name: string;
+  title: string | null;
+  level: string | null;
+  contract_type: string | null;
+  location: string | null;
+}
+
+export interface PaginatedJobSearchResult {
+  jobs: JobSearchResult[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface FilterOptions {
+  companies: string[];
+  levels: string[];
+  functions: string[];
+}
+
+export interface JobSearchParams {
+  company_name?: string;
+  company_names?: string[];
+  found_on_date?: string;
+  job_status?: 'new' | 'existing' | 'removed';
+  title_contains?: string;
+  title_regex?: string;
+  level?: string;
+  levels?: string[];
+  function?: string;
+  function_regex?: string;
+  skip?: number;
+  limit?: number;
 }
 
 @Injectable({
@@ -48,6 +85,58 @@ export class ApiService {
   getJobStatistics(): Observable<JobStatistics> {
     const url = `${this.getApiUrl()}/api/jobs?statistics=true`;
     return this.http.get<JobStatistics>(url, { headers: this.getHeaders() });
+  }
+
+  getFilterOptions(): Observable<FilterOptions> {
+    const url = `${this.getApiUrl()}/api/jobs/filters`;
+    return this.http.get<FilterOptions>(url, { headers: this.getHeaders() });
+  }
+
+  searchJobs(params: JobSearchParams): Observable<PaginatedJobSearchResult> {
+    const url = `${this.getApiUrl()}/api/jobs`;
+    let httpParams = new HttpParams();
+
+    if (params.company_name) {
+      httpParams = httpParams.set('company_name', params.company_name);
+    }
+    if (params.company_names && params.company_names.length > 0) {
+      httpParams = httpParams.set('company_names', params.company_names.join(','));
+    }
+    if (params.found_on_date) {
+      httpParams = httpParams.set('found_on_date', params.found_on_date);
+    }
+    if (params.job_status) {
+      httpParams = httpParams.set('job_status', params.job_status);
+    }
+    if (params.title_contains) {
+      httpParams = httpParams.set('title_contains', params.title_contains);
+    }
+    if (params.title_regex) {
+      httpParams = httpParams.set('title_regex', params.title_regex);
+    }
+    if (params.level) {
+      httpParams = httpParams.set('level', params.level);
+    }
+    if (params.levels && params.levels.length > 0) {
+      httpParams = httpParams.set('levels', params.levels.join(','));
+    }
+    if (params.function) {
+      httpParams = httpParams.set('function', params.function);
+    }
+    if (params.function_regex) {
+      httpParams = httpParams.set('function_regex', params.function_regex);
+    }
+    if (params.skip !== undefined) {
+      httpParams = httpParams.set('skip', params.skip.toString());
+    }
+    if (params.limit !== undefined) {
+      httpParams = httpParams.set('limit', params.limit.toString());
+    }
+
+    return this.http.get<PaginatedJobSearchResult>(url, {
+      headers: this.getHeaders(),
+      params: httpParams
+    });
   }
 
   testConnection(): Observable<any> {

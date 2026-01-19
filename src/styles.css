@@ -1,1 +1,157 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Theme Variables */
+
+/* Light Theme - Sand/Neutral Palette */
+:root,
+[data-theme="light"] {
+  /* Background colors - warm sand tones */
+  --bg-primary: #faf8f5;
+  --bg-secondary: #f5f1eb;
+  --bg-tertiary: #ebe5db;
+  --bg-header: #e8e2d8;
+  --bg-sidebar: #f0ebe3;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --bg-dropdown: #ffffff;
+
+  /* Text colors - neutral darks */
+  --text-primary: #2d2d2d;
+  --text-secondary: #5a5a5a;
+  --text-muted: #888888;
+  --text-inverse: #ffffff;
+
+  /* Border colors - warm grays */
+  --border-primary: #d5cfc5;
+  --border-secondary: #c5bfb5;
+  --border-focus: #a09080;
+
+  /* Action colors - primary (muted green) */
+  --primary: #4a7c59;
+  --primary-hover: #3d6849;
+  --primary-active: #2f5439;
+
+  /* Action colors - secondary (warm brown) */
+  --secondary: #8b7355;
+  --secondary-hover: #755f45;
+  --secondary-active: #5f4b35;
+
+  /* Action colors - danger (muted red) */
+  --danger: #b54a4a;
+  --danger-hover: #9a3d3d;
+  --danger-active: #7f3030;
+
+  /* Status colors */
+  --success: #4a7c59;
+  --warning: #c9a227;
+  --error: #b54a4a;
+  --info: #5a7fa8;
+
+  /* Chart colors - sand tones */
+  --chart-bg: #faf8f5;
+  --chart-text: #5a5a5a;
+  --chart-grid: #d5cfc5;
+  --chart-tooltip-bg: #f5f1eb;
+
+  /* Shadow - subtle warm shadows */
+  --shadow-sm: 0 1px 2px rgba(139, 115, 85, 0.08);
+  --shadow-md: 0 2px 6px rgba(139, 115, 85, 0.12);
+  --shadow-lg: 0 4px 12px rgba(139, 115, 85, 0.16);
+
+  /* Nav item - subtle sand highlights */
+  --nav-active-bg: #e8e2d8;
+  --nav-active-border: #a09080;
+  --nav-hover-bg: #ebe5db;
+}
+
+/* Dark Theme - True Gray Palette */
+[data-theme="dark"] {
+  /* Background colors - true grays, no color tint */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #242424;
+  --bg-tertiary: #2e2e2e;
+  --bg-header: #202020;
+  --bg-sidebar: #1e1e1e;
+  --bg-card: #282828;
+  --bg-input: #2e2e2e;
+  --bg-dropdown: #2e2e2e;
+
+  /* Text colors - true gray scale */
+  --text-primary: #e8e8e8;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
+  --text-inverse: #1a1a1a;
+
+  /* Border colors - true grays */
+  --border-primary: #404040;
+  --border-secondary: #353535;
+  --border-focus: #606060;
+
+  /* Action colors - primary (soft green) */
+  --primary: #5a9a6a;
+  --primary-hover: #4a8a5a;
+  --primary-active: #3a7a4a;
+
+  /* Action colors - secondary (warm taupe) */
+  --secondary: #9a8a7a;
+  --secondary-hover: #8a7a6a;
+  --secondary-active: #7a6a5a;
+
+  /* Action colors - danger (soft red) */
+  --danger: #c66a6a;
+  --danger-hover: #b65a5a;
+  --danger-active: #a64a4a;
+
+  /* Status colors */
+  --success: #5a9a6a;
+  --warning: #d4a832;
+  --error: #c66a6a;
+  --info: #6a8ab0;
+
+  /* Chart colors - true grays */
+  --chart-bg: #282828;
+  --chart-text: #b0b0b0;
+  --chart-grid: #404040;
+  --chart-tooltip-bg: #2e2e2e;
+
+  /* Shadow - darker shadows for dark theme */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.6);
+
+  /* Nav item - subtle gray highlights */
+  --nav-active-bg: #353535;
+  --nav-active-border: #606060;
+  --nav-hover-bg: #2e2e2e;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

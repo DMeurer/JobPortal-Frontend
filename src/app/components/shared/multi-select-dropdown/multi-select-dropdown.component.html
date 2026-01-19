@@ -1,0 +1,38 @@
+<div class="multi-select-dropdown">
+  <div class="dropdown-header" (click)="toggleDropdown()">
+    <span class="display-text">{{ displayText }}</span>
+    <span class="arrow" [class.open]="isOpen">&#9662;</span>
+  </div>
+
+  <div class="dropdown-content" *ngIf="isOpen">
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (ngModelChange)="filterOptions()"
+        placeholder="Search..."
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+
+    <div class="actions">
+      <button type="button" class="action-btn" (click)="selectAll(); $event.stopPropagation()">Select All</button>
+      <button type="button" class="action-btn" (click)="deselectAll(); $event.stopPropagation()">Deselect All</button>
+    </div>
+
+    <div class="options-list">
+      <div
+        *ngFor="let option of filteredOptions"
+        class="option-item"
+        [class.selected]="isSelected(option)"
+        (click)="toggleOption(option); $event.stopPropagation()"
+      >
+        <span class="checkbox">{{ isSelected(option) ? '&#9745;' : '&#9744;' }}</span>
+        <span class="option-text">{{ option }}</span>
+      </div>
+      <div *ngIf="filteredOptions.length === 0" class="no-results">
+        No matching options
+      </div>
+    </div>
+  </div>
+</div>
