@@ -1,6 +1,6 @@
-<div class="container">
+<div class="page-container">
   <div class="page-header">
-    <h2>Job Search</h2>
+    <h1>Job Search</h1>
   </div>
 
   <div *ngIf="filterOptionsLoading" class="loading">
@@ -15,7 +15,7 @@
 
   <div *ngIf="!filterOptionsLoading && !filterOptionsError && filterOptions" class="content">
     <!-- Filters Section -->
-    <div class="filters-section">
+    <div class="card filters-section">
       <h3>Filters</h3>
 
       <div class="filters-grid">
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Results Section -->
-    <div class="results-section">
+    <div class="card results-section">
       <div class="results-header">
         <h3>Results</h3>
         <div class="results-controls">
@@ -97,7 +97,7 @@
       </div>
 
       <div *ngIf="!jobsLoading && !jobsError && jobs.length > 0" class="jobs-list">
-        <table class="jobs-table">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Title</th>

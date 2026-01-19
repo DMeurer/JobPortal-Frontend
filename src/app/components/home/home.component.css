@@ -1,84 +1,24 @@
-.home-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+/* Home component specific styles */
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.header h1 {
-  margin: 0;
-  color: var(--text-primary);
-}
-
-.refresh-btn {
-  padding: 10px 20px;
-  background-color: var(--primary);
-  color: var(--text-inverse);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.refresh-btn:hover:not(:disabled) {
-  background-color: var(--primary-hover);
-}
-
-.refresh-btn:active:not(:disabled) {
-  background-color: var(--primary-active);
-}
-
-.refresh-btn:disabled {
-  background-color: var(--bg-tertiary);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.content {
-  background: var(--bg-card);
-  border-radius: 8px;
-  box-shadow: var(--shadow-md);
-  padding: 20px;
-}
-
-.loading {
+.charts-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
+  gap: 30px;
 }
 
-.spinner {
-  border: 4px solid var(--bg-secondary);
-  border-top: 4px solid var(--primary);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+.chart-card {
+  background: var(--bg-card);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--shadow-md);
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.loading p {
+.last-updated {
+  text-align: center;
   margin-top: 20px;
   color: var(--text-muted);
-}
-
-.error {
-  text-align: center;
-  padding: 40px;
-  color: var(--error);
+  font-size: 14px;
+  font-style: italic;
 }
 
 .error-link {
@@ -94,25 +34,4 @@
 
 .error-link:hover {
   background-color: var(--primary-hover);
-}
-
-.charts-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.chart-card {
-  background: var(--bg-card);
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: var(--shadow-md);
-}
-
-.last-updated {
-  text-align: center;
-  margin-top: 20px;
-  color: var(--text-muted);
-  font-size: 14px;
-  font-style: italic;
 }

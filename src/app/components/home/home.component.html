@@ -1,12 +1,9 @@
-<div class="home-container">
-  <div class="header">
-    <h1>Job Portal Dashboard</h1>
-    <button class="refresh-btn" (click)="refresh()" [disabled]="loading">
-      {{ loading ? 'Loading...' : 'Refresh' }}
-    </button>
+<div class="page-container">
+  <div class="page-header">
+    <h1>Dashboard</h1>
   </div>
 
-  <div class="content">
+  <div class="card">
     <div *ngIf="loading" class="loading">
       <div class="spinner"></div>
       <p>Loading statistics...</p>

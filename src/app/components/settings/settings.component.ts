@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { SettingsService, AppSettings } from '../../services/settings.service';
 import { ApiService } from '../../services/api.service';
 
@@ -23,8 +22,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
-    private apiService: ApiService,
-    private router: Router
+    private apiService: ApiService
   ) {}
 
   ngOnInit(): void {
@@ -88,9 +86,5 @@ export class SettingsComponent implements OnInit {
       this.checkEnvironmentKey(); // Update environment key status
       this.testResult = null;
     }
-  }
-
-  goBack(): void {
-    this.router.navigate(['/']);
   }
 }

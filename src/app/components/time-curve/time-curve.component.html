@@ -1,6 +1,6 @@
-<div class="container">
+<div class="page-container">
   <div class="page-header">
-    <h2>Time Curve - Job Statistics</h2>
+    <h1>Time Curve</h1>
   </div>
 
   <div *ngIf="loading" class="loading">
@@ -13,7 +13,7 @@
     <button (click)="refresh()" class="btn btn-primary">Try Again</button>
   </div>
 
-  <div *ngIf="!loading && !error" class="content">
+  <div *ngIf="!loading && !error" class="card">
     <div class="controls">
       <div class="form-group">
         <label for="company-select">Select Company:</label>
@@ -27,7 +27,6 @@
           </option>
         </select>
       </div>
-      <button (click)="refresh()" class="btn btn-secondary">Refresh</button>
     </div>
 
     <div class="chart-container" *ngIf="chartOptions">
@@ -98,7 +97,7 @@
       </div>
 
       <div *ngIf="!jobsLoading && !jobsError && jobs.length > 0" class="jobs-list">
-        <table class="jobs-table">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Title</th>
