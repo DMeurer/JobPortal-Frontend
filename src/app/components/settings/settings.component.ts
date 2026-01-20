@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SettingsService, AppSettings } from '../../services/settings.service';
@@ -22,7 +22,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +69,7 @@ export class SettingsComponent implements OnInit {
           message: 'Connection successful!'
         };
         this.testing = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.testResult = {
@@ -75,6 +77,7 @@ export class SettingsComponent implements OnInit {
           message: `Connection failed: ${error.message}`
         };
         this.testing = false;
+        this.cdr.detectChanges();
       }
     });
   }

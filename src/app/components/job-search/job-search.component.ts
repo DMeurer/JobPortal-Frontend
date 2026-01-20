@@ -24,6 +24,10 @@ export class JobSearchComponent implements OnInit {
   selectedLevels: string[] = [];
   titleSearch: TextSearchValue = { text: '', isRegex: false };
   functionSearch: TextSearchValue = { text: '', isRegex: false };
+  activeOnly = false;
+
+  // Today's date for comparison
+  private today = new Date().toISOString().split('T')[0];
 
   // Results
   jobs: JobSearchResult[] = [];
@@ -139,6 +143,11 @@ export class JobSearchComponent implements OnInit {
         this.pageSize = size;
       }
     }
+
+    // Apply active only filter
+    if (params['activeOnly'] === '1') {
+      this.activeOnly = true;
+    }
   }
 
   private updateUrl(): void {
@@ -181,6 +190,11 @@ export class JobSearchComponent implements OnInit {
       queryParams.pageSize = this.pageSize;
     }
 
+    // Add active only filter
+    if (this.activeOnly) {
+      queryParams.activeOnly = '1';
+    }
+
     // Update URL without navigation
     this.router.navigate([], {
       relativeTo: this.route,
@@ -211,6 +225,15 @@ export class JobSearchComponent implements OnInit {
     this.functionSearch = value;
     this.currentPage = 0;
     this.searchJobs();
+  }
+
+  onActiveOnlyChange(): void {
+    this.currentPage = 0;
+    this.searchJobs();
+  }
+
+  isJobActive(job: JobSearchResult): boolean {
+    return job.last_seen === this.today;
   }
 
   searchJobs(): void {
@@ -255,6 +278,11 @@ export class JobSearchComponent implements OnInit {
       }
     }
 
+    // Add active only filter (jobs last seen today)
+    if (this.activeOnly) {
+      params.found_on_date = 'today';
+    }
+
     this.apiService.searchJobs(params).subscribe({
       next: (result) => {
         this.jobs = result.jobs;
@@ -288,6 +316,7 @@ export class JobSearchComponent implements OnInit {
     this.selectedLevels = [];
     this.titleSearch = { text: '', isRegex: false };
     this.functionSearch = { text: '', isRegex: false };
+    this.activeOnly = false;
     this.currentPage = 0;
     this.searchJobs();
   }
@@ -319,6 +348,7 @@ export class JobSearchComponent implements OnInit {
     return hasCompanyFilter
       || this.selectedLevels.length > 0
       || !!this.titleSearch.text
-      || !!this.functionSearch.text;
+      || !!this.functionSearch.text
+      || this.activeOnly;
   }
 }

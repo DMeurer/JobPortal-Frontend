@@ -22,10 +22,22 @@ export interface JobStatistics {
 export interface JobSearchResult {
   id: number;
   company_name: string;
+  job_id: string | null;
+  url: string | null;
   title: string | null;
+  function: string | null;
   level: string | null;
   contract_type: string | null;
-  location: string | null;
+  work_location: string | null;
+  work_location_short: string | null;
+  all_locations: string | null;
+  country: string | null;
+  department: string | null;
+  flexibility: string | null;
+  keywords: string | null;
+  date_added: string | null;
+  first_seen: string | null;
+  last_seen: string | null;
 }
 
 export interface PaginatedJobSearchResult {

@@ -87,3 +87,63 @@
   background-color: var(--bg-input);
   border-radius: 4px;
 }
+
+/* Radio Group Filter */
+.radio-group {
+  display: flex;
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.radio-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: var(--bg-input);
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  border-right: 1px solid var(--border-primary);
+  margin-bottom: 0 !important;
+}
+
+.radio-option:last-child {
+  border-right: none;
+}
+
+.radio-option:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.radio-option.selected {
+  background-color: var(--primary);
+  color: white;
+}
+
+.radio-option input[type="radio"] {
+  display: none;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-active {
+  background-color: var(--success-hover);
+  color: var(--success);
+}
+
+.status-inactive {
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
+}

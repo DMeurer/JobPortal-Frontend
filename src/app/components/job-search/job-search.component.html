@@ -59,6 +59,32 @@
             (valueChange)="onFunctionSearchChange($event)"
           ></app-regex-text-input>
         </div>
+
+        <div class="filter-group">
+          <label>Job Status</label>
+          <div class="radio-group">
+            <label class="radio-option" [class.selected]="!activeOnly">
+              <input
+                type="radio"
+                name="jobStatus"
+                [value]="false"
+                [(ngModel)]="activeOnly"
+                (change)="onActiveOnlyChange()"
+              />
+              <span>All jobs</span>
+            </label>
+            <label class="radio-option" [class.selected]="activeOnly">
+              <input
+                type="radio"
+                name="jobStatus"
+                [value]="true"
+                [(ngModel)]="activeOnly"
+                (change)="onActiveOnlyChange()"
+              />
+              <span>Active only</span>
+            </label>
+          </div>
+        </div>
       </div>
 
       <div class="filter-actions">
@@ -105,6 +131,7 @@
               <th>Level</th>
               <th>Location</th>
               <th>Contract Type</th>
+              <th *ngIf="!activeOnly">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -112,8 +139,12 @@
               <td>{{ job.title || 'N/A' }}</td>
               <td>{{ job.company_name }}</td>
               <td>{{ job.level || 'N/A' }}</td>
-              <td>{{ job.location || 'N/A' }}</td>
+              <td>{{ job.work_location_short || job.work_location || 'N/A' }}</td>
               <td>{{ job.contract_type || 'N/A' }}</td>
+              <td *ngIf="!activeOnly">
+                <span *ngIf="isJobActive(job)" class="status-badge status-active">Active</span>
+                <span *ngIf="!isJobActive(job)" class="status-badge status-inactive">Inactive</span>
+              </td>
             </tr>
           </tbody>
         </table>

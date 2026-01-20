@@ -111,7 +111,7 @@
               <td>{{ job.title || 'N/A' }}</td>
               <td>{{ job.company_name }}</td>
               <td>{{ job.level || 'N/A' }}</td>
-              <td>{{ job.location || 'N/A' }}</td>
+              <td>{{ job.work_location_short || job.work_location || 'N/A' }}</td>
             </tr>
           </tbody>
         </table>
